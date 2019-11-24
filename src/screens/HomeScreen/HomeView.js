@@ -1,31 +1,75 @@
 import React, {Component} from 'react';
-import {Text, View, Button, StyleSheet} from 'react-native';
+import PropTypes from 'prop-types';
+import {CityItem, ProfileButton, Error, Loading} from '../../components';
+import {View, ScrollView, StatusBar, Dimensions} from 'react-native';
+import constants from '../../config/constants';
+const {width, height} = Dimensions.get('window');
 
 class HomeView extends Component {
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerRight: <ProfileButton navigation={navigation} />,
+    };
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      cities: [],
+    };
+  }
+
+  componentDidMount() {
+    const {getCities} = this.props;
+    getCities();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.completed) {
+      this.setState({
+        cities: nextProps.cities,
+        error: nextProps.error,
+        completed: nextProps.completed,
+      });
+    }
+  }
+
+  getHotels = city => {
+    this.props.navigation.navigate('Hotels', {city});
+  };
+
   render() {
-    //const handlePress = () => false;
     return (
-      <View style={styles.MainContainer}>
-        <Text style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          Hi sumit , how are you ?
-        </Text>
+      <View
+        style={{
+          backgroundColor: constants.PRIMARY_BG_COLOR,
+          width,
+          height: height - 45,
+        }}>
+        <StatusBar barStyle={constants.BAR_STYLE} />
+        {this.state.completed ? (
+          this.state.error ? (
+            <Error />
+          ) : (
+            <ScrollView>
+              <CityItem city={{}} key={0} event={this.getHotels} />
+              {this.state.cities.map(city => (
+                <CityItem city={city} key={city._id} event={this.getHotels} />
+              ))}
+            </ScrollView>
+          )
+        ) : (
+          <Loading />
+        )}
       </View>
     );
   }
 }
 
+HomeView.propTypes = {
+  getCities: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired,
+  cities: PropTypes.array.isRequired,
+};
+
 export default HomeView;
-
-const styles = StyleSheet.create({
-  MainContainer: {
-    flex: 1,
-
-    // Set content's vertical alignment.
-    justifyContent: 'center',
-
-    // Set content's horizontal alignment.
-
-    // Set hex color code here.
-    backgroundColor: '#FFEB3B',
-  },
-});

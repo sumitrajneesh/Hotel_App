@@ -1,6 +1,6 @@
-import HomeScreen from './HomeScreen/HomeView';
-import HotelsScreen from './HotelScreen/HotelsView';
-import ProfileScreen from './ProfileScreen/ProfileView';
-import DetailScreen from './DetailScreen/DetailsView';
+import HomeScreen from './HomeScreen';
+import HotelsScreen from './HotelsScreen';
+import ProfileScreen from './ProfileScreen';
+import DetailScreen from './DetailScreen';
 
 export {HomeScreen, HotelsScreen, ProfileScreen, DetailScreen};

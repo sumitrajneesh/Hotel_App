@@ -1,12 +1,14 @@
 import React from 'react';
 import {StackNavigator} from 'react-navigation';
+//import {createStackNavigator, createAppContainer} from 'react-navigation';
+
 import {
   HomeScreen,
   HotelsScreen,
   DetailScreen,
   ProfileScreen,
 } from '../screens';
-// import {HeaderLogo} from '../components';
+import {HeaderLogo} from '../components';
 import constants from '../config/constants';
 
 export default StackNavigator(
@@ -27,7 +29,7 @@ export default StackNavigator(
   {
     initialRouteName: 'Home',
     navigationOptions: {
-      headerTitle: 'Hotel App',
+      headerTitle: <HeaderLogo />,
       gesturesEnabled: false,
       headerStyle: {
         backgroundColor: constants.PRIMARY_BG_COLOR,
@@ -41,3 +43,5 @@ export default StackNavigator(
     },
   },
 );
+// const AppContainer = createAppContainer(AppNavigator);
+// export default AppContainer;
